@@ -279,3 +279,70 @@ The question says: Sketch hypothetical data with the same range of x but corresp
 #### 7) Now, plot to check it out
 
 #### 8) Optional: Fit and review a regression model: As an additional step, you can fit a linear regression model to the generated data using stan_glm() or any other fitting function to see how closely the estimated parameters match the ones used to generate the data. 
+```{r}
+rnorm(20,1,5)
+sigma <- 1
+mu <- 0
+tau <- 1
+
+f1 <- function(x) {(((1 / (sigma * sqrt(2 * pi)) * exp(-1 * ((x - mu)^2 / (2*sigma)^2))}
+
+results_1 <- f1(1)
+print(results_1)
+
+# Generate a sequence of x values from -5 to 5
+x_values <- seq(-5, 5, length.out = 100)
+
+# Evaluate the function for each x value
+y_values <- sapply(x_values, f1)
+
+# Plot the function
+plot(x_values, y_values, type = "l", col = "blue", lwd = 2, 
+     xlab = "x", ylab = "f(x)", main = "Plot of the function f(x)")
+
+# Add grid for better visualization
+grid()
+
+
+```
+```{r}
+library(ggplot2)
+
+# define the values that we know from his description 🙂
+mu <- 0.0
+sigma <- 1.0
+tau <- 1.0
+
+# defining your functions (this is a bit annoying if you do it manually)
+f1 <- function(x) {
+  (1 / (sigma * sqrt(2 * pi))) * exp((-1/2) * (((x - mu)/2)^2))
+}
+
+f2 <- function(x) {
+  (sqrt(tau/(2 * pi))) * exp((-tau * ((x - mu)^2)) / 2) #Not sure about this
+}
+
+# calculate the x values
+x_values <- seq(-5, 5, by = 0.01)
+
+# calculate the y values by calling our function
+y_values_f1 <- f1(x_values)
+y_values_f2 <- f2(x_values)
+
+# plot the first graph
+plot1 <- ggplot() +
+  geom_line(aes(x = x_values, y = y_values_f1), color = "blue") +
+  labs(y = "Density", x = "x", title = "Normal Distributions Function 1") +
+  theme_minimal() 
+
+# plot the second graph
+plot2 <- ggplot() +
+  geom_line(aes(x = x_values, y = y_values_f2), color = "red") +
+  labs(y = "Density", x = "x", title = "Normal Distributions Function 2") +
+  theme_minimal() 
+
+# showing our plots
+plot1
+plot2
+```
+
