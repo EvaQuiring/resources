@@ -162,6 +162,8 @@ n_girls <- sum(girls)
 
 ### Ex. 5.1 Discrete probability simulation: Suppose that a basketball player has a 60% chance of making a shot, and he keeps taking shots until he misses two in a row. Also assume his shots are independent (so that each shot has 60% probability of success, no matter what happened before).
 * Hint 3 and 4
+Hint 3: Think about what distribution we'll use to simulate from when it's a basketball hit we're talking about here (success/fail type outcome). Rhymes with minomial.
+Hint 4: Think about the two loops we have learnt about. When this guy keeps shooting UNTIL something happens (i.e. while something is true), what loop should we use?
 
 #### Ex. 5.1.a) Write an R function to simulate this process.
 Here's some notes to get you started: 
@@ -180,35 +182,113 @@ We need to record:
 Let's try and write a function:
 ```{r}
 # Function to simulate basketball player
-basketball <- function(){ # starting the function for you
+# Help from ChatGPT
+basketball <- function(printing = TRUE){ #Making sure it prints the results
+  misses <- 0 # Keeping track of the misses
+  total_shots <- 0 # keeping track of the total shots
   
-  # your code here
+  while (misses < 2) { #While it's under 2
+    made_shot <- rbinom(1, size = 1, prob = 0.6) #Binomial distribution (1 = made the shot & 0 = failed)
+    
+    if (made_shot ==1){
+      misses <- 0 #If he makes it then reset the misses
+    } else {
+      misses <- misses + 1 # if he fails then add 1 to the misses
+    }
+    total_shots <- total_shots + 1 #Adding 1 to the total shots
+  }
   
+  if(printing) {
+    print(paste("Total shots taken:", total_shots)) #Printing the results with the text
+  }
+   return(total_shots) #Get the number
 }
 # Example usage of the function, when done
-# basket_sim <- basketball(printing = TRUE)
+basket_sim <- basketball(printing = TRUE)
+basket_sim2 <- basketball()
 
 ```
 
 #### Ex. 5.1.b) Put the R function in a loop to simulate the process 1000 times. Use the simulation to estimate the mean and standard deviation of the total number of shots that the player will take, and plot a histogram representing the distribution of this random variable. 
 ```{r}
-# your code here
+# Number of simulations - ChatGPT
+num_sim <- 1000
+
+#Making a list to get the numbers - ChatGPT
+results <- numeric(num_sim)
+
+#Loop - ChatGPT
+for (number in 1:num_sim) {
+  results[number] <- basketball()
+  
+}
+
+mean(results) #Getting the mean
+sd(results) # Getting the standard deviation
+
+hist(results) #Simple plot
+
 ```
 
 #### Ex. 5.1.c) Using your simulations, make a scatterplot of the number of shots the player will take and the proportion of shots that are successes.
 ```{r}
-# your code here
+# Calculating the proportion of success - ChatGPT
+prop_suc <- 1 - results / sum(results)
+
+
+# Making a data frame to plot it
+df_results <- data.frame(succes_rate <- prop_suc, Sim_results = results)
+
+library(ggplot2)
+scatter_plot <- ggplot(df_results, aes(y = prop_suc, x = Sim_results)) + 
+  geom_point() + #Scatter plot
+  geom_smooth() + #Adding trend line
+  labs(x = "Number of shots", 
+       y = "Number of successfull shots",
+       title = "Scatterplot of shots taken") +
+  theme_minimal()
+
+scatter_plot
 ```
 
 ### Ex. 5.3: Binomial distribution: A player takes 10 basketball shots, with a 40% probability of making each shot. Assume the outcomes of the shots are independent.
 #### Ex. 5.3.a) Write a line of R code to compute the probability that the player makes exactly 3 of the 10 shots.
 ```{r}
-# your code here
+# Writing out what I know
+number_shots <- 10
+prob_success <- 0.4
+number_success <- 3
+
+# One can use dbinom - chatGPT
+dbinom(number_success, size = number_shots, prob = prob_success)
+
+# The probability is 0.215
+
 ```
 
 #### Ex. 5.3.b) Write an R function to simulate the 10 shots. Loop this function 10 000 times and check that your simulated probability of making exactly 3 shots is close to the exact probability computed in (a).
 ```{r}
-# your code here
+# Variables
+number_shots <- 10
+prob_success <- 0.4
+number_success <- 3
+
+#Simulating
+number_sims <- 10000
+shots_basketball_10 <- rep(NA, number_sims)
+
+#Looping it (looked above)
+for (numbers in 1:10000) {
+  shots_basketball_10[numbers] <- rbinom(1, size = number_shots, prob = prob_success)
+}
+
+# Calculating the simulated probability - ChatGPT
+sim_prob <- sum(shots_basketball_10 == number_success) / number_sims
+
+sim_prob # There is a small difference since it's 0.2121 (it varies for everytime I run the code)
+
+hist(shots_basketball_10)
+
 ```
 
 ## Ex. 5.4: Demonstration of the Central Limit Theorem: Let x = x1 + · · · + x20, the sum of 20 independent uniform(0, 1) random variables. In R, create 1000 simulations of x and plot their histogram. What is the normal approximation to this distribution provided by the Central Limit Theorem? Overlay a graph of the normal density on top of the histogram. Comment on any differences between the histogram and the curve.
