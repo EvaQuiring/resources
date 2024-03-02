@@ -101,7 +101,7 @@ number_checker(number_list)
 
 ## Function
 ```{r}
-# Creating a function to calculate the area of a rectangel
+# Creating a function to calculate the area of a rectangle
 calculate_area <- function(width, length_) { # Don't override the functions - call it something else like the name with _
   area <- width * length_ 
   return(area)
@@ -110,10 +110,6 @@ calculate_area <- function(width, length_) { # Don't override the functions - ca
 calculate_area(3, 4)
 
 ```
-
-
-
-
 
 
 # Continuing learning about simulations (and practicing a bit)
@@ -129,6 +125,15 @@ Result to check: You should get 5050.
 
 Hint A1* under Hints
 ```{r}
+first_number <- 1
+number_sum <- 0
+
+
+for (number in 1:100) {
+  number_sum <- number_sum + number
+  print(number_sum)
+}
+
 
 ```
 
@@ -137,6 +142,14 @@ Result to check: You should get 2870.
 
 Hint A2* under Hints
 ```{r}
+
+number_sum2 <- 0
+for (number in 1:20) {
+  number_sum2 <- number_sum2 + number^2
+  sum_2 <- sum(number_sum2)
+  print(sum_2)
+}
+
 
 ```
 
@@ -147,6 +160,14 @@ Result to check: You should get 45 here
 Hint B1* under Hints
 
 ```{r}
+sum_tracker <- 0
+
+while(counter <= 1000) {
+  sum_tracker <- sum_tracker + 1
+  counter <- sum((1:sum_tracker))
+  print(sum_tracker)
+}
+
 
 ```
 
@@ -155,6 +176,17 @@ Hint B1* under Hints
 Hint B2* under Hints
 
 ```{r}
+# Used ChatGPT
+countdown <- 10
+
+while (countdown > 0) {
+  print(countdown)
+  countdown <- countdown - 1
+}
+
+print("Lift off!")
+
+
 
 ```
 
@@ -167,6 +199,21 @@ Hint B2* under Hints
 0
 
 ```{r}
+
+list_of_numbers_c1 <- c(-4, 7, 23, -120309, 0)
+
+for (x in list_of_numbers_c1) {
+  if (x > 0) {
+  print("Positive")
+} else if (x < 0) {
+  print("Negative")
+} else {
+  print("Zero")
+}
+}
+  
+
+
 
 ```
 
@@ -182,6 +229,19 @@ Ages:
 :) :) 26 <3 <3 
 
 ```{r}
+ages <- c(10, 20, 56, 19, 89, 26, 15)
+
+for (age in ages) {
+  if (age < 12) {
+    print("Child")
+  } else if (age >= 12 && age <= 18) {
+    print("Teenager")
+  } else {
+    print("Adult")
+  }
+  
+}
+
 
 ```
 
@@ -189,18 +249,53 @@ Ages:
 ### D1 Create a function that takes a vector of numbers and returns the mean of that vector.
 (If you need to, check class 2's doc for how to write functions)
 ```{r}
+mean_function <- function (vector_of_numbers) {
+  mean_vector <- mean(vector_of_numbers)
+  return(mean_vector)
+}
+
+listd1 <- c(12, 5, 2, 345)
+
+mean_function(listd1)
+  
 
 ```
 
 ### D2 Write a function named calculate_area_circle that takes the radius of a circle as its argument and returns the area of the circle. Remember, the formula to calculate the area of a circle is pi*r^2, where r is the radius of the circle.
 
 ```{r}
+calculate_area_circle <- function (radius)  {
+  area <- pi*radius^2
+  return(area)
+}
+
+calculate_area_circle(3) # Test
+
 
 ```
 
 ## E. Need some more practice in simulations? 
 ### E1 Write a simulation to mimic the rolling of two six-sided dice. Simulate rolling the two dice 10000 times and store the sum of the dice faces for each roll. Plot a histogram of the sums to see the distribution of the total dice rolls. Calculate and print the mean and standard deviation of the rolls.
 ```{r}
+n_sims <- 10000
+
+dice_sums <- numeric(n_sims) # Create an empty vector to store the information
+
+?sample
+
+for (roll in 1:n_sims) {
+  die_1 <- sample(1:6, 1, replace = TRUE)
+  die_2 <- sample(1:6, 1, replace = TRUE)
+  
+  dice_sums[roll] <- die_1 + die_2
+}
+
+
+hist(dice_sums)
+
+print(mean(dice_sums))
+print(sd(dice_sums))
+
 
 ```
 
