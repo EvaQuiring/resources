@@ -327,19 +327,38 @@ sd_start <- 0.1
 n_years <- 30
 start_inv <- 10000
 n_sims <- 1000
-final_value <- rep(NA, n_sims) # Create empty vector
+final_value <- numeric(n_sims) # Create empty vector
 
 for (money in 1:n_sims) {
-  final_value[money] <- 
+  yearly_money <- rnorm(n_years, mean = return_, sd = sd_start)
+  final_value[money] <- start_inv * prod(1 + yearly_money)
 }
 
+df_e3 <- data.frame(final_value = final_value)
 
+plot_final_value <- ggplot(df_e3, aes(x = final_value)) + geom_histogram()
+plot_final_value
+
+print(paste("The new mean is: ", mean(final_value))) #This is the mean and standard deviation of the final money
+print(paste("The new sd is: ", sd(final_value)))
+  
 
 ```
 
 #### E4 (Ex. 3.5 from the book) Probability distributions: Using a bar plot in R, graph the binomial distribution with n = 20 and p = 0.3.
 
 ```{r}
+n <- 20
+p <- 0.3
+
+bi_data <- dbinom(1:20, n, p) #A little help from Pernilles code
+
+# Pernilles code
+barplot(bi_data,
+        ylab="Probability", 
+        ylim=c(0,0.2), 
+        xlab = 'k', 
+        names.arg=1:20)
 
 ```
 
