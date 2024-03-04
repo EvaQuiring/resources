@@ -302,11 +302,38 @@ print(sd(dice_sums))
 ### E2 Consider a population that grows exponentially according to the formula \(P = P_0e^{rt}\) (the e^{rt} part is written exp(r*t) in r), where \(P_0\) is the initial population size, \(r\) is the rate of growth, and \(t\) is time in years. Simulate the growth of a population starting with 100 individuals and a growth rate of 2% per year over 50 years. Plot the population size each year.
 
 ```{r}
+P0 <- 100
+growth_rate <- 0.02
+time <- 50
+population <- rep(NA, time)
+
+for (people in 1:time) {
+  population[people] <- P0 * exp(growth_rate * people)
+}
+
+df_e2 <- data.frame(years = 1:time, population = population)
+
+plot_population <- ggplot(df_e2, aes(x = years, y = population)) + geom_point()
+
+plot_population
 
 ```
 ### E3 Simulate the annual returns of an investment portfolio with an average return of 7% and a standard deviation of 10%. Assume the returns follow a normal distribution. Simulate 30 years of returns and calculate the final portfolio value assuming an initial investment of $10,000. Repeat this simulation 1000 times and plot a histogram of the final portfolio values. Calculate the mean and standard deviation of the final values.
 
 ```{r}
+# What we know
+return_ <- 0.07
+sd_start <- 0.1
+n_years <- 30
+start_inv <- 10000
+n_sims <- 1000
+final_value <- rep(NA, n_sims) # Create empty vector
+
+for (money in 1:n_sims) {
+  final_value[money] <- 
+}
+
+
 
 ```
 
